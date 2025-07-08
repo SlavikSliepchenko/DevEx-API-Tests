@@ -1,4 +1,4 @@
-package helpers;
+package helpers.dto;
 
 public class RegisterRequest {
     public String email;
@@ -8,7 +8,8 @@ public class RegisterRequest {
     public String facebook;
     public String github;
 
-    public RegisterRequest(String email, String password, String name, String google, String facebook, String github) {
+    public RegisterRequest(String email, String password, String name,
+                           String google, String facebook, String github) {
         this.email = email;
         this.password = password;
         this.name = name;
