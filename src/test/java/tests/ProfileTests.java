@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ProfileTests {
     @Test
     @Story("Get Profile")
-    void shouldGetProfileOfCurrentUser() {
+    void GetProfileOfCurrentUser() {
 
         String email = "profi" + System.currentTimeMillis() + "@test.com";
         String password = "Password123!";
@@ -66,7 +66,7 @@ public class ProfileTests {
 
     @Test
     @Story("Successful delete Profile")
-    void shouldDeleteProfileSuccessfully() {
+    void DeleteProfileSuccessfully() {
 
         String email = "deleteuser_" + System.currentTimeMillis() + "@test.com";
         String password = "Password123!";

@@ -25,7 +25,7 @@ public class UserTests {
 
     @Test
     @Story("Login")
-    public void shouldLoginSuccessfully() {
+    public void LoginSuccessfully() {
         Allure.step("Отправка запроса на логин", () -> {
             Response response = Wrappers.login(Config.EMAIL, Config.PASSWORD);
 
@@ -41,7 +41,7 @@ public class UserTests {
 
     @Test
     @Story("Register")
-    void shouldRegisterUserSuccessfully() {
+    void RegisterUserSuccessfully() {
         String email = "user" + System.currentTimeMillis() + "@example.com";
 
         RegisterRequest request = new RegisterRequest(
@@ -68,7 +68,7 @@ public class UserTests {
 
     @Test
     @Story("Login")
-    void shouldNotLoginWithInvalidPassword() {
+    void NotLoginWithInvalidPassword() {
         JSONObject body = new JSONObject();
         body.put("email", Config.EMAIL);
         body.put("password", "Test");

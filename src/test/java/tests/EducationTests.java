@@ -18,7 +18,7 @@ public class EducationTests {
 
     @Test
     @Story("Add Education With Schema Validation")
-    void shouldAddEducationSuccessfully() {
+    void AddEducationSuccessfully() {
         String token = AuthHelper.getToken();
         String body = """
                 {
@@ -51,7 +51,7 @@ public class EducationTests {
 
     @Test
     @Story("Add Education Without Token")
-    void shouldNotAddEducationWithoutToken() {
+    void NotAddEducationWithoutToken() {
         String body = """
                     {
                         "school": "Test University",
@@ -83,7 +83,7 @@ public class EducationTests {
 
     @Test
     @Story("Delete Education Without Token")
-    void shouldNotDeleteEducationWithoutToken() {
+    void NotDeleteEducationWithoutToken() {
         Response response = given()
                 .baseUri(Config.URL)
                 .when()
