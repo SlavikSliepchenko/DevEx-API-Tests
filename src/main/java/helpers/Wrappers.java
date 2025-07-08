@@ -12,14 +12,14 @@ public class Wrappers {
         LoginRequest request = new LoginRequest(email, password);
 
         Response response = given()
-                .filter(CustomAllureListener.withCustomTemplates()) // 🧩 шаблоны Allure
-                .log().all() // ⬅️ логируем весь запрос
+                .filter(CustomAllureListener.withCustomTemplates())
+                .log().all()
                 .contentType(JSON)
                 .body(request)
                 .when()
                 .post("/api/auth")
                 .then()
-                .log().all() // ⬅️ логируем весь ответ
+                .log().all()
                 .extract().response();
         Allure.addAttachment("Request body", "application/json",
                 String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password), ".json");

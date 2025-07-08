@@ -45,9 +45,7 @@ public class UserTests {
             );
         });
     }
-
     @Test
-    @Story("Register")
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Успешная регистрация пользователя")
     @Description("Регистрация пользователя с валидными данными (по данным из Postman)")
@@ -74,11 +72,11 @@ public class UserTests {
                         .baseUri(Config.URL)
                         .contentType(JSON)
                         .filter(CustomAllureListener.withCustomTemplates()) // 🧩 Allure templates
-                        .log().all() // ⬅️ лог запроса
-                        .body(body.toString())
+                        .log().all()
+                        .body(body.toString())  // ✅ вот здесь было request — заменено на body.toString()
                         .post("/api/users")
                         .then()
-                        .log().all() // ⬅️ лог ответа
+                        .log().all()
                         .extract().response()
         );
 
@@ -95,6 +93,38 @@ public class UserTests {
 
         Allure.step("Проверка: ответ соответствует JSON-схеме регистрации", () ->
                 response.then().body(matchesJsonSchemaInClasspath("schemas/successful-register-schema.json"))
+        );
+    }
+
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Логин с неверным паролем")
+    @Description("Проверка, что при попытке логина с неправильным паролем возвращается ошибка")
+    @Test
+    void shouldNotLoginWithInvalidPassword() {
+        JSONObject body = new JSONObject();
+        body.put("email", Config.EMAIL);
+        body.put("password", "Test");
+
+        Allure.step("Формируем тело запроса", () ->
+                System.out.println("Request body:\n" + body.toString(2))
+        );
+
+        Response response = Allure.step("Отправка запроса", () ->
+                given()
+                        .baseUri(Config.URL)
+                        .contentType(JSON)
+                        .filter(CustomAllureListener.withCustomTemplates())
+                        .body(body.toString())
+                        .post("/api/auth")
+        );
+
+        Allure.step("Проверка: статус-код == 400", () ->
+                response.then().statusCode(400)
+        );
+
+        Allure.step("Проверка: структура ошибки соответствует схеме", () ->
+                response.then().assertThat()
+                        .body(matchesJsonSchemaInClasspath("schemas/invalid-login-schema.json"))
         );
     }
 

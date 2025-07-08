@@ -24,6 +24,7 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -32,9 +33,10 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>5.4.0</version>
+            <version>${restassured.version}</version>
             <scope>test</scope>
         </dependency>
+
 
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -116,14 +118,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                    <systemPropertyVariables>
-                        <allure.results.directory>target/allure-results</allure.results.directory>
-                    </systemPropertyVariables>
+                    <useModulePath>false</useModulePath>
                     <properties>
-                        <configurationParameters>junit.jupiter.extensions.autodetection.enabled=true</configurationParameters>
+                        <configurationParameters>junit.jupiter.extensions.autodetection.enabled=true
+                        </configurationParameters>
                     </properties>
                 </configuration>
             </plugin>
