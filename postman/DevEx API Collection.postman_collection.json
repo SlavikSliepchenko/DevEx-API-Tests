@@ -4,7 +4,7 @@
 		"name": "DevEx API Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "46164453",
-		"_collection_link": "https://viacheslav-4141418.postman.co/workspace/9e64580a-cbd3-424d-8a95-72b412685a32/collection/46164453-186f2dec-a32b-4295-974d-2bd51163b733?action=share&source=collection_link&creator=46164453"
+		"_collection_link": "https://viacheslav-4141418.postman.co/workspace/Viacheslav's-Workspace~9e64580a-cbd3-424d-8a95-72b412685a32/collection/46164453-186f2dec-a32b-4295-974d-2bd51163b733?action=share&source=collection_link&creator=46164453"
 	},
 	"item": [
 		{
@@ -30,8 +30,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"packages": {},
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -132,7 +135,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"278p@example.com\",\n  \"password\": \"qwertz\",\n  \"name\": \"Test User\",\n  \"google\": \"testuser\",\n  \"facebook\": \"fb.testuser1\",\n  \"github\": \"gh-testuser1\"\n}",
+							"raw": "{\n  \"email\": \"127p@example.com\",\n  \"password\": \"qwertz\",\n  \"name\": \"Test User\",\n  \"google\": \"testuser\",\n  \"facebook\": \"fb.testuser1\",\n  \"github\": \"gh-testuser1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -210,15 +213,27 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "{{token_user}}",
+								"value": "{{token}}",
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{url}}/api/auth",
 							"host": [
@@ -244,8 +259,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
 									"});"
 								],
 								"type": "text/javascript",
@@ -254,6 +269,7 @@
 						}
 					],
 					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -265,6 +281,15 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{url}}/api/profile/me",
 							"host": [
@@ -281,25 +306,33 @@
 				},
 				{
 					"name": "Get User profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/profile/user/318?Autorization={{token}}",
+							"raw": "{{url}}/api/profile/user/17",
 							"host": [
-								"{{base_url}}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
 								"profile",
 								"user",
-								"318"
-							],
-							"query": [
-								{
-									"key": "Autorization",
-									"value": "{{token}}"
-								}
+								"17"
 							]
 						}
 					},
@@ -327,11 +360,6 @@
 							{
 								"key": "x-auth-token",
 								"value": "{{token}}",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -375,13 +403,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{url}}/api/profile",
 							"host": [
@@ -414,10 +436,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [
-							{
-								"key": "accept",
-								"value": "application/json"
-							},
 							{
 								"key": "x-auth-token",
 								"value": "{{token_user}}",
@@ -460,12 +478,6 @@
 							{
 								"key": "accept",
 								"value": "application/json"
-							},
-							{
-								"key": "x-auth-token",
-								"value": "{{token_user}}",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"url": {
@@ -500,17 +512,11 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "{{token_user}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/profile/user/318",
+							"raw": "{{url}}/api/profile/user/318",
 							"host": [
-								"{{base_url}}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
@@ -564,7 +570,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/profile/userQuery",
+							"raw": "{{url}}/api/profile/userQuery?id=318",
 							"host": [
 								"{{url}}"
 							],
@@ -575,13 +581,22 @@
 							],
 							"query": [
 								{
-									"key": "email",
-									"value": "288p@example.com",
+									"key": "company",
+									"value": "\"amazon\"",
 									"disabled": true
 								},
 								{
-									"key": "location",
-									"value": "",
+									"key": "id",
+									"value": "318"
+								},
+								{
+									"key": "email",
+									"value": "\"tester@yahoo.com\"",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "\"senior\"",
 									"disabled": true
 								}
 							]
@@ -663,9 +678,10 @@
 								"type": "text"
 							},
 							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"key": "educationID",
+								"value": "318",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -678,6 +694,149 @@
 								"profile",
 								"education",
 								"544"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Experience",
+			"item": [
+				{
+					"name": "Add profile experience",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Senior QA Engineer\",\n  \"company\": \"TechStudy\",\n  \"location\": \"Cologne\",\n  \"from\": \"2022-01-01\",\n  \"to\": \"2024-12-31\",\n  \"current\": false,\n  \"description\": \"Worked on test automation.\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/profile/experience",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"profile",
+								"experience"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "288p@example.com",
+									"disabled": true
+								},
+								{
+									"key": "location",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch profile experience",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Senior QA Engineer\",\n  \"company\": \"EuroTech\",\n  \"location\": \"Cologne\",\n  \"from\": \"2022-05-01\",\n  \"to\": \"2023-11-30\",\n  \"current\": false,\n  \"description\": \"Test automation and CI/CD\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/profile/experience/{experienceID}?experienceID=318",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"profile",
+								"experience",
+								"{experienceID}"
+							],
+							"query": [
+								{
+									"key": "experienceID",
+									"value": "318"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Save post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n  \"title\":\"my new post\",\n  \"text\": \"This is a test post\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"posts"
 							]
 						}
 					},
