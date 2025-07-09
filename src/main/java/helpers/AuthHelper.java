@@ -2,11 +2,10 @@
 package helpers;
 
 import helpers.dto.LoginRequest;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
 import static helpers.Config.URL;
+import static io.restassured.RestAssured.given;
 
 public class AuthHelper {
 
@@ -21,6 +20,7 @@ public class AuthHelper {
 
         return response.jsonPath().getString("token");
     }
+
     public static String getToken() {
         String email = Config.EMAIL;
         String password = Config.PASSWORD;

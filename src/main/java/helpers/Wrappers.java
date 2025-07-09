@@ -58,6 +58,7 @@ public class Wrappers {
             throw new RuntimeException("Ошибка сериализации объекта в JSON", e);
         }
     }
+
     public static Response getWithToken(String endpoint, String token) {
         return given()
                 .baseUri(Config.URL)
@@ -71,6 +72,7 @@ public class Wrappers {
                 .log().all()
                 .extract().response();
     }
+
     public static Response postJsonWithToken(String endpoint, Object body, String token) {
         try {
             ObjectMapper mapper = new ObjectMapper();

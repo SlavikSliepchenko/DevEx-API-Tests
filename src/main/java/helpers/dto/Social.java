@@ -15,6 +15,8 @@ public class Social {
         this.linkedin = linkedin;
         this.instagram = instagram;
     }
-    public Social() {} // нужен для сериализации
+
+    public Social() {
+    }
 
 }
