@@ -5,8 +5,10 @@ import helpers.dto.LoginRequest;
 import io.qameta.allure.Allure;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
+import static helpers.Config.URL;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
@@ -41,7 +43,7 @@ public class Wrappers {
             Allure.addAttachment("Request JSON", "application/json", requestBody, ".json");
 
             Response response = given()
-                    .baseUri(Config.URL)
+                    .baseUri(URL)
                     .contentType(ContentType.JSON)
                     .filter(CustomAllureListener.withCustomTemplates())
                     .log().all()
@@ -61,7 +63,7 @@ public class Wrappers {
 
     public static Response getWithToken(String endpoint, String token) {
         return given()
-                .baseUri(Config.URL)
+                .baseUri(URL)
                 .header("x-auth-token", token)
                 .contentType(ContentType.JSON)
                 .filter(CustomAllureListener.withCustomTemplates())
@@ -81,7 +83,7 @@ public class Wrappers {
             Allure.addAttachment("Request JSON", "application/json", requestBody, ".json");
 
             Response response = given()
-                    .baseUri(Config.URL)
+                    .baseUri(URL)
                     .header("x-auth-token", token)
                     .contentType(ContentType.JSON)
                     .filter(CustomAllureListener.withCustomTemplates())
@@ -114,4 +116,46 @@ public class Wrappers {
                 .log().all()
                 .extract().response();
     }
+
+    public static Response postJson(String endpoint, String token, Object body) {
+        return given()
+                .contentType(JSON)
+                .header("x-auth-token", token)
+                .body(body)
+                .when()
+                .post(endpoint);
+    }
+
+    public static ValidatableResponse patchJson(String endpoint, String token, Object body) {
+        return given()
+                .header("x-auth-token", token)  // <-- Исправлено
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .patch(endpoint)
+                .then()
+                .log().all();
+    }
+
+    public static Response getJson(String endpoint, String token) {
+        return given()
+                .baseUri(Config.URL)
+                .auth().oauth2(token)
+                .when()
+                .get(endpoint);
+    }
+
+    public static ValidatableResponse putJson(String path, String token, Object body) {
+        return given()
+                .filter(CustomAllureListener.withCustomTemplates())
+                .log().all()
+                .contentType(ContentType.JSON)
+                .header("x-auth-token", token)
+                .body(body)
+                .when()
+                .put(URL + path)
+                .then()
+                .log().all();
+    }
+
 }

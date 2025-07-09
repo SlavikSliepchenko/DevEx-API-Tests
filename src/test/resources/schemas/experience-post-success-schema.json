@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["id", "company", "location", "status", "website", "year", "skills"],
+  "properties": {
+    "id": { "type": "integer" },
+    "company": { "type": "string" },
+    "location": { "type": "string" },
+    "status": { "type": "string" },
+    "website": { "type": "string" },
+    "year": { "type": "integer" },
+    "skills": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

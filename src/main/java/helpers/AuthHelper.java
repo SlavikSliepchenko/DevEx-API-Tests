@@ -1,4 +1,3 @@
-// src/main/java/helpers/AuthHelper.java
 package helpers;
 
 import helpers.dto.LoginRequest;
