@@ -11,6 +11,7 @@ public class ProfileRequest {
     public String githubusername;
     public String bio;
     public Social social;
+    public int year;
 
     public ProfileRequest(String company, String website, String location, String status,
                           String skills, String githubusername, String bio, Social social) {

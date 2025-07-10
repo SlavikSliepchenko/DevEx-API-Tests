@@ -118,44 +118,79 @@ public class Wrappers {
     }
 
     public static Response postJson(String endpoint, String token, Object body) {
-        return given()
-                .contentType(JSON)
-                .header("x-auth-token", token)
-                .body(body)
-                .when()
-                .post(endpoint);
+        try {
+            String requestBody = new ObjectMapper().writeValueAsString(body);
+
+            Allure.addAttachment("Request JSON", "application/json", requestBody, ".json");
+
+            Response response = given()
+                    .contentType(ContentType.JSON)
+                    .header("x-auth-token", token)
+                    .filter(CustomAllureListener.withCustomTemplates())
+                    .log().all()
+                    .body(requestBody)
+                    .when()
+                    .post(endpoint)
+                    .then()
+                    .log().all()
+                    .extract().response();
+
+            Allure.addAttachment("Response JSON", "application/json", response.asPrettyString(), ".json");
+
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize request body for POST " + endpoint, e);
+        }
     }
 
     public static ValidatableResponse patchJson(String endpoint, String token, Object body) {
-        return given()
-                .header("x-auth-token", token)  // <-- Исправлено
-                .contentType(ContentType.JSON)
-                .body(body)
-                .when()
-                .patch(endpoint)
-                .then()
-                .log().all();
+        try {
+            String requestBody = new ObjectMapper().writeValueAsString(body);
+
+            Allure.addAttachment("PATCH Request JSON", "application/json", requestBody, ".json");
+
+            Response response = given()
+                    .header("x-auth-token", token)
+                    .contentType(ContentType.JSON)
+                    .filter(CustomAllureListener.withCustomTemplates())
+                    .log().all()
+                    .body(requestBody)
+                    .when()
+                    .patch(endpoint)
+                    .then()
+                    .log().all()
+                    .extract()
+                    .response();
+
+            Allure.addAttachment("PATCH Response JSON", "application/json", response.asPrettyString(), ".json");
+
+            return response.then();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize request body for PATCH " + endpoint, e);
+        }
     }
 
-    public static Response getJson(String endpoint, String token) {
-        return given()
-                .baseUri(Config.URL)
-                .auth().oauth2(token)
-                .when()
-                .get(endpoint);
-    }
 
-    public static ValidatableResponse putJson(String path, String token, Object body) {
-        return given()
+    public static Response deleteWithAllure(String path, String token, Object... pathParams) {
+        RequestSpecification spec = given()
                 .filter(CustomAllureListener.withCustomTemplates())
-                .log().all()
-                .contentType(ContentType.JSON)
-                .header("x-auth-token", token)
-                .body(body)
-                .when()
-                .put(URL + path)
-                .then()
                 .log().all();
+
+        if (token != null && !token.isEmpty()) {
+            spec.header("x-auth-token", token);
+        }
+
+        Response response = spec
+                .when()
+                .delete(path, pathParams)
+                .then()
+                .log().all()
+                .extract().response();
+
+        Allure.addAttachment("DELETE Response JSON", "application/json", response.asPrettyString(), ".json");
+
+        return response;
     }
+
 
 }
