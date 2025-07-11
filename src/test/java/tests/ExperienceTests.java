@@ -4,7 +4,9 @@ import helpers.AuthHelper;
 import helpers.dto.ExperienceRequest;
 import helpers.dto.ProfileRequest;
 import helpers.dto.Social;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -15,7 +17,10 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 
+@Epic("Experience Tests")
+
 public class ExperienceTests {
+
 
     private void createProfile(String token) {
         ProfileRequest profile = new ProfileRequest(
@@ -35,6 +40,7 @@ public class ExperienceTests {
     }
 
     @Test
+    @DisplayName("POST experience successfully")
     @Story("POST experience successfully")
     void createExperienceSuccessfully() throws Exception {
         String token = AuthHelper.getToken();
@@ -57,6 +63,7 @@ public class ExperienceTests {
     }
 
     @Test
+    @DisplayName("POST experience with invalid dates should fail")
     @Story("POST experience without title should fail")
     void createExperienceWithoutTitleShouldFail() throws Exception {
         String token = AuthHelper.getToken();
@@ -78,6 +85,7 @@ public class ExperienceTests {
     }
 
     @Test
+    @DisplayName("PATCH experience title successfully")
     @Story("PATCH experience title successfully")
     void updateExperienceTitleSuccessfully() throws Exception {
         String token = AuthHelper.getToken();

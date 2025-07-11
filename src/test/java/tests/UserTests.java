@@ -7,11 +7,10 @@ import helpers.dto.RegisterRequest;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
-import io.qameta.allure.junit5.AllureJunit5;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -19,11 +18,12 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Epic("User")
-@ExtendWith(AllureJunit5.class)
+@Epic("User Tests")
+
 public class UserTests {
 
     @Test
+    @DisplayName("Login successfully")
     @Story("Login")
     public void LoginSuccessfully() {
         Allure.step("Отправка запроса на логин", () -> {
@@ -40,6 +40,7 @@ public class UserTests {
     }
 
     @Test
+    @DisplayName("Register user successfully")
     @Story("Register")
     void RegisterUserSuccessfully() {
         String email = "user" + System.currentTimeMillis() + "@example.com";
@@ -67,6 +68,7 @@ public class UserTests {
     }
 
     @Test
+    @DisplayName("Not login with invalid password")
     @Story("Login")
     void NotLoginWithInvalidPassword() {
         JSONObject body = new JSONObject();

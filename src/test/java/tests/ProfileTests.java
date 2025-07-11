@@ -9,6 +9,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,13 +18,15 @@ import static helpers.AuthHelper.loginAndGetToken;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Epic("Profile")
+@Epic("Profile Tests")
+
 public class ProfileTests {
     @Test
+    @DisplayName("Get current user profile after registration and login")
     @Story("Get Profile")
     void GetProfileOfCurrentUser() {
 
-        String email = "profi" + System.currentTimeMillis() + "@test.com";
+        String email = "profile" + System.currentTimeMillis() + "@test.com";
         String password = "Password123!";
 
         RegisterRequest register = new RegisterRequest(
@@ -65,6 +68,7 @@ public class ProfileTests {
     }
 
     @Test
+    @DisplayName("Update user profile with valid data")
     @Story("Successful delete Profile")
     void DeleteProfileSuccessfully() {
 

@@ -171,7 +171,7 @@ public class Wrappers {
     }
 
 
-    public static Response deleteWithAllure(String path, String token, Object... pathParams) {
+    public static Response deleteWithInvalidID(String path, String token, Object... pathParams) {
         RequestSpecification spec = given()
                 .filter(CustomAllureListener.withCustomTemplates())
                 .log().all();

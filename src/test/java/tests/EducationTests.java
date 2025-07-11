@@ -4,9 +4,11 @@ package tests;
 import helpers.AuthHelper;
 import helpers.Config;
 import io.qameta.allure.Allure;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,9 +16,12 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Epic("Education Tests")
+
 public class EducationTests {
 
     @Test
+    @DisplayName("Successfully add education with JSON schema validation")
     @Story("Add Education With Schema Validation")
     void AddEducationSuccessfully() {
         String token = AuthHelper.getToken();
@@ -50,6 +55,7 @@ public class EducationTests {
     }
 
     @Test
+    @DisplayName("Fail to add education without authentication token")
     @Story("Add Education Without Token")
     void NotAddEducationWithoutToken() {
         String body = """
@@ -82,6 +88,7 @@ public class EducationTests {
     }
 
     @Test
+    @DisplayName("Fail to delete education without authentication token")
     @Story("Delete Education Without Token")
     void NotDeleteEducationWithoutToken() {
         Response response = given()

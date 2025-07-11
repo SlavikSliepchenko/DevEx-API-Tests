@@ -2,19 +2,23 @@ package tests;
 
 import helpers.AuthHelper;
 import helpers.dto.ProfileRequest;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static helpers.Wrappers.deleteWithAllure;
-import static helpers.Wrappers.postJson;
+import static helpers.Wrappers.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
+
+@Epic("Post Tests")
 
 public class PostTests {
 
     @Test
+    @DisplayName("Create post successfully")
     @Story("POST post successfully")
     void createPostSuccessfully() throws Exception {
         String token = AuthHelper.getToken();
@@ -44,12 +48,13 @@ public class PostTests {
     }
 
     @Test
+    @DisplayName("Negative test: delete post with valid ID")
     @Story("Negative test: delete post with invalid ID")
     void deletePostWithInvalidIdShouldFail() {
         String token = AuthHelper.getToken();
         String invalidId = "nonexistent-id";
 
-        deleteWithAllure("/api/posts/{id}", token, invalidId)
+        deleteWithInvalidID("/api/posts/{id}", token, invalidId)
                 .then()
                 .statusCode(404)
                 .body("msg", equalTo("Post not found!"));
