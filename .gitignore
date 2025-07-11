@@ -39,3 +39,6 @@ build/
 # IntelliJ Allure plugin
 .allure/
 
+# Allure report directories
+allure-results/
+allure-report/
