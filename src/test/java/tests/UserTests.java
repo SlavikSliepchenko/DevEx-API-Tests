@@ -62,7 +62,7 @@ public class UserTests {
 
         Allure.step("Проверка: токен присутствует", () -> {
             String token = response.jsonPath().getString("token");
-            assertNotNull(token, "Токен отсутствует в ответе");
+            assertNotNull(token, "Токен присутствует в ответе");
         });
 
     }
