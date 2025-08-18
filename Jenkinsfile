@@ -2,29 +2,26 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'
+        maven 'Maven3'   // имя Maven из Jenkins → Manage Jenkins → Tools
     }
 
     stages {
-        stage('Build') {
+        stage('Checkout SCM') {
             steps {
-                sh 'echo "Hello World"'
-                sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
+                checkout scm
             }
         }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -DskipTests'
+            }
+        }
+
         stage('Test') {
             steps {
                 sh 'mvn test'
             }
-        }
-    }
-
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
         }
     }
 }
