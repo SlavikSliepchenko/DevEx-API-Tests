@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'   // имя Maven из Jenkins → Manage Jenkins → Tools
+        maven 'Maven3'
     }
 
     stages {
